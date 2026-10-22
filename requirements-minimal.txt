@@ -1,0 +1,11 @@
+# Minimal dependencies for initial testing
+# These should have wheels available for Python 3.14
+
+streamlit>=1.35.0
+sqlalchemy>=2.0.0
+pypdf>=4.0.0
+python-dotenv>=1.0.0
+pytest>=8.0.0
+
+# Note: pandas, numpy, torch, transformers will be added once
+# we verify the basic application works or use Python 3.11/3.12 instead

@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv/
+
+# Project-specific
+data/*.db
+data/*.db-journal
+checkpoints/
+documents/*.pdf
+datasets/week_*/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Model files
+*.pt
+*.pth
+*.bin
+*.safetensors
+
+# Keep folder structure
+!datasets/.gitkeep
+!checkpoints/.gitkeep
+!documents/.gitkeep
+!data/.gitkeep
