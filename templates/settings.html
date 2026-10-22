@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">⚙️ Application Settings</h1>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-white fw-bold">📁 Project Paths & Configuration</div>
+    <div class="card-body">
+        <p><strong>Project Root:</strong> <code>{{ config.PROJECT_ROOT }}</code></p>
+        <p><strong>Database Path:</strong> <code>{{ config.DATABASE_PATH }}</code></p>
+        <p><strong>Documents Directory:</strong> <code>{{ config.DOCUMENTS_DIR }}</code></p>
+        <p><strong>Datasets Directory:</strong> <code>{{ config.DATASETS_DIR }}</code></p>
+        <p><strong>Checkpoints Directory:</strong> <code>{{ config.CHECKPOINTS_DIR }}</code></p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header bg-white fw-bold">📅 Roadmap & Career Settings</div>
+    <div class="card-body">
+        <p><strong>Start Date:</strong> {{ config.ROADMAP_CONFIG['start_date'] }}</p>
+        <p><strong>Total Roadmap Duration:</strong> 20 Months ({{ total_weeks }} Weeks - Includes AI/ML Fundamentals, Advanced MLOps, LLM Fine-Tuning, Agentic AI, and Career Portfolio Capstone)</p>
+    </div>
+</div>
+{% endblock %}

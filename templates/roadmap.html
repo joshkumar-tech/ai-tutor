@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">📚 12-Month AI/ML Learning Roadmap</h1>
+    <span class="text-muted">52 Structured Weeks</span>
+</div>
+
+<div class="row">
+    {% for week in weeks %}
+    <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card h-100 {% if week.status == 'completed' %}border-success{% elif week.status == 'ongoing' %}border-primary{% endif %}">
+            <div class="card-body d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <span class="badge bg-secondary">Week {{ week.week_number }}</span>
+                    <span class="badge {% if week.status == 'completed' %}bg-success{% elif week.status == 'ongoing' %}bg-primary{% else %}bg-light text-dark border{% endif %}">
+                        {{ week.status.capitalize() }}
+                    </span>
+                </div>
+                <h6 class="card-subtitle text-muted small mb-1">{{ week.month }}</h6>
+                <h5 class="card-title fs-6">{{ week.title }}</h5>
+                {% if week.notes %}
+                    <p class="card-text small text-muted mt-2">Notes: {{ week.notes }}</p>
+                {% endif %}
+
+                <div class="mt-auto pt-3">
+                    <button class="btn btn-sm btn-outline-secondary w-100" data-bs-toggle="modal" data-bs-target="#editModal{{ week.week_number }}">
+                        Update Status
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for updating week -->
+    <div class="modal fade" id="editModal{{ week.week_number }}" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{ url_for('update_roadmap', week_num=week.week_number) }}" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Week {{ week.week_number }}: {{ week.title }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <select name="status" class="form-select">
+                                <option value="upcoming" {% if week.status == 'upcoming' %}selected{% endif %}>Upcoming</option>
+                                <option value="ongoing" {% if week.status == 'ongoing' %}selected{% endif %}>Ongoing</option>
+                                <option value="completed" {% if week.status == 'completed' %}selected{% endif %}>Completed</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Personal Notes</label>
+                            <textarea name="notes" class="form-control" rows="3">{{ week.notes }}</textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

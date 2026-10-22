@@ -1,0 +1,97 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">📄 PDF Library & AI Roadmap Generator</h1>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6 mb-3">
+        <div class="card h-100 shadow-sm">
+            <div class="card-header bg-white fw-bold">📤 Upload PDF & Generate Custom Roadmap</div>
+            <div class="card-body">
+                <form action="{{ url_for('pdf_library') }}" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label class="form-label">Select PDF Curriculum, Syllabus, or Book</label>
+                        <input type="file" name="pdf_file" accept=".pdf" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Document Title (Optional)</label>
+                        <input type="text" name="title" class="form-control" placeholder="e.g. My AI & Career Syllabus">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Action</label>
+                        <select name="action" class="form-select">
+                            <option value="generate_roadmap">✨ Analyze PDF & Generate Custom Roadmap</option>
+                            <option value="import">📚 Import & Index for Search Only</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100"><i class="bi bi-magic"></i> Process PDF</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="card h-100 shadow-sm">
+            <div class="card-header bg-white fw-bold">🔍 Search Documents</div>
+            <div class="card-body">
+                <form action="{{ url_for('pdf_library') }}" method="GET">
+                    <div class="input-group mb-3">
+                        <input type="text" name="q" class="form-control" placeholder="Search keywords across your PDFs..." value="{{ query }}">
+                        <button class="btn btn-outline-primary" type="submit"><i class="bi bi-search"></i> Search</button>
+                    </div>
+                </form>
+                {% if query %}
+                    <h6>Search Results for "{{ query }}" ({{ search_results|length }})</h6>
+                    {% if search_results %}
+                        <div class="list-group overflow-auto" style="max-height: 200px;">
+                            {% for res in search_results %}
+                                <div class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">{{ res.title }}</h6>
+                                        <small class="text-muted">Page {{ res.page_number }}</small>
+                                    </div>
+                                    <p class="mb-1 small text-muted">{{ res.snippet }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted small">No matching passages found.</p>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-white fw-bold">📚 Imported Documents ({{ docs|length }})</div>
+    <div class="card-body">
+        {% if docs %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Filename</th>
+                            <th>Pages</th>
+                            <th>Imported At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for doc in docs %}
+                        <tr>
+                            <td><strong>{{ doc.title }}</strong></td>
+                            <td><code>{{ doc.filename }}</code></td>
+                            <td><span class="badge bg-secondary">{{ doc.total_pages }}</span></td>
+                            <td class="text-muted small">{{ doc.imported_at }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-muted">No PDF documents imported yet. Upload a syllabus or curriculum PDF above to generate your custom roadmap!</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

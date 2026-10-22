@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">🎓 Welcome to Your AI Learning Assistant</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{{ url_for('roadmap') }}" class="btn btn-sm btn-primary"><i class="bi bi-play-fill"></i> View Roadmap</a>
+    </div>
+</div>
+
+<div class="row row-cols-1 row-cols-md-4 g-4 mb-4">
+    <div class="col">
+        <div class="card bg-primary text-white h-100">
+            <div class="card-body">
+                <h5 class="card-title">Roadmap Progress</h5>
+                <p class="card-text fs-3 fw-bold">{{ stats.completed_weeks }} / {{ stats.total_weeks }} weeks</p>
+                <a href="{{ url_for('roadmap') }}" class="text-white small">Manage roadmap &rarr;</a>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card bg-success text-white h-100">
+            <div class="card-body">
+                <h5 class="card-title">PDF Library</h5>
+                <p class="card-text fs-3 fw-bold">{{ stats.pdf_count }} documents</p>
+                <a href="{{ url_for('pdf_library') }}" class="text-white small">Browse PDFs &rarr;</a>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card bg-warning text-dark h-100">
+            <div class="card-body">
+                <h5 class="card-title">Datasets</h5>
+                <p class="card-text fs-3 fw-bold">{{ stats.dataset_count }} imported</p>
+                <a href="{{ url_for('datasets') }}" class="text-dark small">Manage datasets &rarr;</a>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card bg-info text-white h-100">
+            <div class="card-body">
+                <h5 class="card-title">Training Runs</h5>
+                <p class="card-text fs-3 fw-bold">{{ stats.training_runs }} runs</p>
+                <a href="{{ url_for('training') }}" class="text-white small">Train model &rarr;</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-white fw-bold">📅 Learning Timeline</div>
+            <div class="card-body">
+                <p><strong>Start Date:</strong> November 1, 2026</p>
+                <p><strong>Target Timeline:</strong> 12 Months (52 Weeks)</p>
+                <p class="text-muted">Your personal AI tutor helps you learn AI/ML step by step, indexes your study materials locally, tests your knowledge with quizzes, and trains your custom language model securely on your computer.</p>
+                <a href="{{ url_for('tutor') }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-chat-dots"></i> Ask AI Tutor a Question</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-white fw-bold">📄 Recent Documents</div>
+            <div class="card-body">
+                {% if docs %}
+                    <ul class="list-group list-group-flush">
+                        {% for doc in docs %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {{ doc.title }}
+                                <span class="badge bg-secondary rounded-pill">{{ doc.total_pages }} pages</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted">No documents imported yet. Upload your first PDF in the PDF Library!</p>
+                {% endif %}
+                <div class="mt-3">
+                    <a href="{{ url_for('pdf_library') }}" class="btn btn-sm btn-outline-success">Go to PDF Library</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
